@@ -124,6 +124,13 @@ client.connect(err => {
       res.send(documents);
     });
   });
+  // ======================In Admin dashboard, show all services =============
+
+  app.get('/services', (req, res) => {
+    serviceCollection.find({}).toArray((err, documents) => {
+      res.send(documents);
+    });
+  });
 
   // ==============User order status update rolled by admin only=================
 
@@ -138,6 +145,17 @@ client.connect(err => {
       .then((result) => {
         console.log(result);
         res.send(result.modifiedCount > 0);
+      });
+  });
+  // ============== Delete service rolled by admin only =================
+
+  app.delete('/deleteService/:_id', (req, res) => {
+    // const deleteItem = { _id: { req.params.id } };
+      serviceCollection
+      .deleteOne({ _id: ObjectId(req.params._id) })
+      .then((result) => {
+        console.log(result);
+        res.send(result.deletedCount > 0);
       });
   });
 
